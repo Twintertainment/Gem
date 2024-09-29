@@ -7,6 +7,19 @@ var instdown = collision_point(x,y+64,obj_gem,false,true);
 var instleft = collision_point(x-64,y,obj_gem,false,true);
 var instright = collision_point(x+64,y,obj_gem,false,true);
 
+if (y < 256 || y > room_height -256)
+{
+	var instmiddle = collision_point(x,room_height div 2,obj_gem,false,true);
+	if (instmiddle != noone)
+	{
+		with (instmiddle)
+		{
+			effect_create_above(ef_firework,x,y,0,color);
+			alarm[0] = 2; // wait to destroy to avoid error looking for chain reaction		
+		}
+	}
+}
+
 if (instup != noone && instup.color == color) // if partial match to recursively check
 {
 	with(instup)

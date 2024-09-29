@@ -11,8 +11,18 @@ if (y > room_height - 256 || y < 256)
 	}
 	else
 	{
-		// todo: clear the middle line
-		instance_destroy();
+		for (var i = 0; i < 10;i++)
+		{
+			var inst = collision_point(get_lane(i),room_height div 2,obj_gem,false,true);
+			if (inst != noone)
+			{
+				with (inst)
+				{
+					effect_create_above(ef_firework,x,y,0,color);
+					instance_destroy(); // wait to destroy to avoid error looking for chain reaction	
+				}
+			}
+		}
 	}
 }
 
@@ -30,5 +40,23 @@ if (vspd != 0)
 			temp_y -= sign(temp_y);
 		}
 		vspd = 0;
+	}
+	if (abs(y - room_height div 2) <= 10)
+	{
+		show_debug_message(string(y) + " " + string(room_height div 2));
+		vspd = 0;
+		y = room_height div 2;
+	}
+	
+}
+if (abs(y - room_height div 2) > sprite_height div 2)
+{
+	if (y < room_height div 2)
+	{
+		vspd = 10;
+	}
+	else if (y > room_height div 2)
+	{
+		vspd = -10;
 	}
 }
